@@ -39,7 +39,9 @@ def get_chat_history(user_id: int) -> str:
     try:
         # Truy vấn tất cả các document có user_id, sắp xếp theo timestamp tăng dần
         # Nếu không có trường timestamp, có thể sort theo _id
-        docs = list(collection.find({"user_id": user_id}).sort("timestamp", 1).limit(15))
+        docs = list(collection.find({"user_id": user_id}).sort("timestamp", -1).limit(20))
+        docs.reverse()
+
         if not docs:
             logger.info(f"Không tìm thấy dữ liệu cho user_id: {user_id}")
             return ""
@@ -56,7 +58,7 @@ def get_chat_history(user_id: int) -> str:
                 conversation_lines.append(f"Bot: {message}")
         
         # Ghép các dòng thành chuỗi, mỗi dòng cách nhau bằng xuống dòng
-        logger.info("\n".join(conversation_lines))
+        logger.info("User ID: " + str(user_id))
         return "\n".join(conversation_lines)
     except Exception as e:
         logger.error(f"Lỗi khi lấy lịch sử chat cho user_id {user_id}: {e}")

@@ -95,7 +95,7 @@ async def chat_endpoint(request: ChatRequest):
     start_time = time.time()
     try:
         # Gọi hàm chat với thông tin được cung cấp
-        response = await asyncio.to_thread(chatbot.chat, request.query, request.user_id)
+        response = await asyncio.to_thread(chatbot.chat, request.query, int(request.user_id))
         process_time = time.time() - start_time
         return ChatResponse(
             response=response,
